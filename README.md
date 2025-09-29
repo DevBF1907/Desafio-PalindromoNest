@@ -176,5 +176,5 @@ Implementar documentação com Swagger
 
 
 
-👨‍💻 Autor
+# 👨‍💻 Autor
 Desenvolvido como exemplo de API REST com NestJS para Desafio de projeto voluntário.

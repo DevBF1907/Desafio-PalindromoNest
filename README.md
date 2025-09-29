@@ -1,98 +1,180 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 API de Verificação de Palíndromos - NestJS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto é uma API simples desenvolvida em NestJS para verificar se um número é um palíndromo (igual quando lido de frente para trás e de trás para frente).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📋 Pré-requisitos
 
-## Description
+Node.js (versão 16 ou superior)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+npm ou yarn
 
-## Project setup
+Conhecimentos básicos em TypeScript
 
-```bash
-$ npm install
+## 🛠 Tecnologias Utilizadas
+
+NestJS - Framework para construção de APIs
+
+TypeScript - Linguagem de programação
+
+JavaScript - Linguagem base
+
+## 📁 Estrutura do Projeto
+
+```text
+
+src/
+├── app.module.ts              # Módulo principal da aplicação
+├── main.ts                    # Arquivo de inicialização
+└── palindrome/                # Módulo de palíndromos
+    ├── palindrome.module.ts   # Módulo do palíndromo
+    ├── palindrome.controller.ts # Controller das rotas
+    ├── palindrome.service.ts  # Lógica de negócio
+    └── dto/
+        └── palindrome-response.dto.ts # Data Transfer Object
+
 ```
 
-## Compile and run the project
+## 🚀 Como Executar o Projeto
+
+1. Instalação das Dependências
+```bash
+npm install
+```
+2. Execução em Modo Desenvolvimento
+```bash
+npm run start:dev
+```
+3. Execução em Modo Produção
+```bash
+npm run start
+```
+4. Build do Projeto
 
 ```bash
-# development
-$ npm run start
+npm run build   
+```
+### 📚 Explicação do Código
 
-# watch mode
-$ npm run start:dev
+## 🔄 Para Desenvolvedores Spring Boot
 
-# production mode
-$ npm run start:prod
+Se você vem do Spring Boot, aqui está uma comparação dos conceitos:
+
+| Spring Boot | NestJS | Função |
+|-------------|---------|---------|
+| `@RestController` | `@Controller` | Define um controller |
+| `@Service` | `@Injectable()` | Define um service |
+| `@Autowired` | Injeção no construtor | Injeção de dependência |
+| `@GetMapping` | `@Get()` | Mapeia método GET |
+| `@RequestParam` | `@Query()` | Parâmetros de query |
+| `ResponseEntity` | Retorno direto | Retorno de responses |
+
+# 🧩 Componentes Principais
+
+1. DTO (Data Transfer Object)
+```typescript
+// Similar ao DTO do Spring Boot
+export class PalindromeResponseDto {
+  number: number;
+  isPalindrome: boolean;
+}
 ```
 
-## Run tests
+2. Service (Camada de Negócio)
+```typescript
+@Injectable() // Similar ao @Service do Spring
+export class PalindromeService {
+  checkPalindrome(num: string): PalindromeResponseDto {
+    // Lógica de validação e verificação
+  }
+}
+```
+3. Controller (Camada de Apresentação)
+```typescript
+@Controller() // Similar ao @RestController
+export class PalindromeController {
+  constructor(private readonly palindromeService: PalindromeService) {} // Injeção de dependência
+  
+  @Get('palindrome') // Similar ao @GetMapping
+  checkPalindrome(@Query('num') num: string): PalindromeResponseDto {
+    return this.palindromeService.checkPalindrome(num);
+  }
+}
+```
+
+# 📡 Endpoints da API
+## GET /palindrome
+
+Verifica se um número é um palíndromo.
+
+##Parâmetros:
+
+num (query string) - Número a ser verificado
+
+Exemplos de Uso:
 
 ```bash
-# unit tests
-$ npm run test
+# Número é palíndromo
+curl "http://localhost:3000/palindrome?num=121"
+# Response: {"number":121,"isPalindrome":true}
 
-# e2e tests
-$ npm run test:e2e
+# Número não é palíndromo
+curl "http://localhost:3000/palindrome?num=123"
+# Response: {"number":123,"isPalindrome":false}
 
-# test coverage
-$ npm run test:cov
+# Número negativo (nunca é palíndromo)
+curl "http://localhost:3000/palindrome?num=-121"
+# Response: {"number":-121,"isPalindrome":false}
+
+# Parâmetro não informado
+curl "http://localhost:3000/palindrome"
+# Response: {"error":"Parâmetro obrigatório","message":"O parâmetro \"num\" é obrigatório"}
+
+# Parâmetro inválido
+curl "http://localhost:3000/palindrome?num=abc"
+# Response: {"error":"Parâmetro inválido","message":"O parâmetro \"num\" deve ser um número válido"}
 ```
 
-## Deployment
+# 🧪 Casos de Teste Implementados
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+✅ 121 → true (é palíndromo)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+✅ 123 → false (não é palíndromo)
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+✅ -121 → false (negativos não são palíndromos)
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+✅ 10 → false (não é palíndromo)
 
-## Resources
+✅ Parâmetro não enviado → erro
 
-Check out a few resources that may come in handy when working with NestJS:
+✅ Parâmetro inválido → erro
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# 🔧 Lógica de Negócio
 
-## Support
+Validação de entrada: Verifica se o parâmetro foi enviado e é válido
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Verificação de negativo: Números negativos nunca são palíndromos
 
-## Stay in touch
+Conversão e comparação: Converte para string e compara com sua versão reversa
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Retorno padronizado: Sempre retorna no formato JSON especificado
 
-## License
+# 🎯 Características do Projeto
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Arquitetura modular: Segue os princípios do NestJS
+
+Tratamento de erros: Retornos padronizados para diferentes cenários de erro
+
+Código limpo: Separação de responsabilidades entre controller e service
+
+Type Safety: Uso de TypeScript para maior confiabilidade
+
+# 📝 Próximos Passos Possíveis
+
+Adicionar testes unitários
+
+Implementar documentação com Swagger
+
+
+
+👨‍💻 Autor
+Desenvolvido como exemplo de API REST com NestJS para Desafio de projeto voluntário.
